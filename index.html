@@ -93,6 +93,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
+<script src="index_files/libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="index_files/libs/jquery-1.11.3/jquery.min.js"></script>
+<link href="index_files/libs/jquery-sparkline-2.1.2/jquery.sparkline.css" rel="stylesheet">
+<script src="index_files/libs/jquery-sparkline-2.1.2/jquery.sparkline.js"></script>
+<script src="index_files/libs/sparkline-binding-2.0/sparkline.js"></script>
 <script src="index_files/libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="index_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
@@ -148,9 +153,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sparkline)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reactable)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># library(DT)</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># library(reactable)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># library(formattable)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># library(htmltools)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">sparkline</span>(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<span id="htmlwidget-0c23030f0f4eb5378c34" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-0c23030f0f4eb5378c34">{"x":{"values":0,"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script>
+</div>
 </div>
 <section id="description" class="level2">
 <h2 class="anchored" data-anchor-id="description">Description</h2>
@@ -219,97 +231,137 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="table" class="level2">
 <h2 class="anchored" data-anchor-id="table">Table</h2>
+<p>The table below is showing the production of corn, harvested area and the yield for 2005 of each of the states present in the USDA dataset. Also show in a sparkline is the yield for 2000-2010 to help provide context for how the yield for 2005 may have compared to recent years. The total production and harvested area were also included to help provide a better scale of the production which can be lost when looking at only yields. From this we can see that Nebraska produces much more corn and harvests many more acres of corn than the other states in the dataset.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>table_stats <span class="ot">&lt;-</span> average_state_yields <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state, harvested_area, production, yield)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'State'</span>, <span class="st">'Harvested Area'</span>, <span class="st">'Production'</span>, <span class="st">'Yield'</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>units <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">''</span>, <span class="st">'acre'</span>, <span class="st">'bu'</span>, <span class="st">'bu/acre'</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  table_stats,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names=</span>units,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">align=</span><span class="st">'c'</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits=</span><span class="dv">1</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_header_above</span>(cols) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_material</span>(<span class="at">lightable_options =</span> <span class="fu">c</span>(<span class="st">'hover'</span>, <span class="st">'striped'</span>, <span class="st">'condensed'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state, production, harvested_area, yield) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">production =</span> production <span class="sc">/</span> <span class="fl">1e6</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">harvested_area =</span> harvested_area <span class="sc">/</span> <span class="fl">1e3</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">yield_trend=</span><span class="cn">NA</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'State'</span>, <span class="st">'Production'</span>, <span class="st">'Harvested Area'</span>, <span class="st">'Yield'</span>, <span class="st">'2000-2010 Yield Trend'</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>units <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">''</span>, <span class="st">"millions of bushels"</span>, <span class="st">"thousands of acres"</span>, <span class="st">'bushel/acre'</span>, <span class="st">'bushel/acre'</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> table_stats<span class="sc">$</span>state){</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  state_yields <span class="ot">&lt;-</span> prep_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(location <span class="sc">==</span> s, year <span class="sc">&gt;</span> <span class="dv">2000</span> <span class="sc">&amp;</span> year <span class="sc">&lt;</span> <span class="dv">2010</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(yield)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  table_stats[<span class="fu">which</span>(table_stats<span class="sc">$</span>state<span class="sc">==</span>s), <span class="st">'yield_trend'</span>] <span class="ot">&lt;-</span> <span class="fu">spk_chr</span>(state_yields)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  table_stats,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption=</span><span class="st">'2005 Corn Production'</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">escape=</span>F,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names=</span>units,</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">align=</span><span class="st">'c'</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits=</span><span class="dv">1</span>, </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">big.mark=</span><span class="st">','</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_header_above</span>(cols) <span class="sc">%&gt;%</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_material</span>(<span class="at">lightable_options =</span> <span class="fu">c</span>(<span class="st">'hover'</span>, <span class="st">'striped'</span>, <span class="st">'condensed'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <table class=" lightable-material lightable-striped lightable-hover" style="font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<caption>2005 Corn Production</caption>
  <thead>
 <tr>
 <th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">State</div></th>
-<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Harvested Area</div></th>
 <th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Production</div></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Harvested Area</div></th>
 <th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Yield</div></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">2000-2010 Yield Trend</div></th>
 </tr>
   <tr>
    <th style="text-align:center;">  </th>
-   <th style="text-align:center;"> acre </th>
-   <th style="text-align:center;"> bu </th>
-   <th style="text-align:center;"> bu/acre </th>
+   <th style="text-align:center;"> millions of bushels </th>
+   <th style="text-align:center;"> thousands of acres </th>
+   <th style="text-align:center;"> bushel/acre </th>
+   <th style="text-align:center;"> bushel/acre </th>
   </tr>
  </thead>
 <tbody>
   <tr>
    <td style="text-align:center;"> Colorado </td>
-   <td style="text-align:center;"> 723000 </td>
-   <td style="text-align:center;"> 123280000 </td>
+   <td style="text-align:center;"> 123.3 </td>
+   <td style="text-align:center;"> 723.0 </td>
    <td style="text-align:center;"> 170.3 </td>
+   <td style="text-align:center;"> <span id="htmlwidget-902aad181c6a95dfd37a" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-902aad181c6a95dfd37a">{"x":{"values":[175,165.5,167,178,184,202.5,192,176,189],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Kansas </td>
-   <td style="text-align:center;"> 1462000 </td>
-   <td style="text-align:center;"> 254080000 </td>
+   <td style="text-align:center;"> 254.1 </td>
+   <td style="text-align:center;"> 1462.0 </td>
    <td style="text-align:center;"> 173.8 </td>
+   <td style="text-align:center;"> <span id="htmlwidget-ab3da49937b72ed9dcf8" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-ab3da49937b72ed9dcf8">{"x":{"values":[173,160,169,192,187,173,193,183,205],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Montana </td>
-   <td style="text-align:center;"> 14800 </td>
-   <td style="text-align:center;"> 2101800 </td>
+   <td style="text-align:center;"> 2.1 </td>
+   <td style="text-align:center;"> 14.8 </td>
    <td style="text-align:center;"> 142.2 </td>
+   <td style="text-align:center;"> <span id="htmlwidget-635dabececbc96ee5838" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-635dabececbc96ee5838">{"x":{"values":[148,140,140,143,148,146,140],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Nebraska </td>
-   <td style="text-align:center;"> 4731000 </td>
-   <td style="text-align:center;"> 818984000 </td>
+   <td style="text-align:center;"> 819.0 </td>
+   <td style="text-align:center;"> 4731.0 </td>
    <td style="text-align:center;"> 173.0 </td>
+   <td style="text-align:center;"> <span id="htmlwidget-05e9df1b78627153f500" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-05e9df1b78627153f500">{"x":{"values":[173,166.2,185.5,186.1,184.7,184.8,181.2,184,198.6],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> New Mexico </td>
-   <td style="text-align:center;"> 53400 </td>
-   <td style="text-align:center;"> 9299000 </td>
+   <td style="text-align:center;"> 9.3 </td>
+   <td style="text-align:center;"> 53.4 </td>
    <td style="text-align:center;"> 175.0 </td>
+   <td style="text-align:center;"> <span id="htmlwidget-6e16a62c325bff717674" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-6e16a62c325bff717674">{"x":{"values":[180,175,180,180,175,185,180,185],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> North Dakota </td>
-   <td style="text-align:center;"> 66700 </td>
-   <td style="text-align:center;"> 9262260 </td>
+   <td style="text-align:center;"> 9.3 </td>
+   <td style="text-align:center;"> 66.7 </td>
    <td style="text-align:center;"> 139.2 </td>
+   <td style="text-align:center;"> <span id="htmlwidget-20be55b4cac91ec9d918" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-20be55b4cac91ec9d918">{"x":{"values":[149.6,142.8,140.9,118.8,156.5,158.8,147.6,153,121],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Oklahoma </td>
-   <td style="text-align:center;"> 119400 </td>
-   <td style="text-align:center;"> 19972000 </td>
+   <td style="text-align:center;"> 20.0 </td>
+   <td style="text-align:center;"> 119.4 </td>
    <td style="text-align:center;"> 167.6 </td>
+   <td style="text-align:center;"> <span id="htmlwidget-0563c6a534bbc8005ed1" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-0563c6a534bbc8005ed1">{"x":{"values":[162,166.7,150.5,195,161.3,160,184.6,159,110],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> South Dakota </td>
-   <td style="text-align:center;"> 145500 </td>
-   <td style="text-align:center;"> 23296000 </td>
+   <td style="text-align:center;"> 23.3 </td>
+   <td style="text-align:center;"> 145.5 </td>
    <td style="text-align:center;"> 159.6 </td>
+   <td style="text-align:center;"> <span id="htmlwidget-e138b3b187765e8de684" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-e138b3b187765e8de684">{"x":{"values":[157.8,141,174.2,169.9,170,168.7,172.1,174,181],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Texas </td>
-   <td style="text-align:center;"> 744000 </td>
-   <td style="text-align:center;"> 132723000 </td>
+   <td style="text-align:center;"> 132.7 </td>
+   <td style="text-align:center;"> 744.0 </td>
    <td style="text-align:center;"> 178.6 </td>
+   <td style="text-align:center;"> <span id="htmlwidget-e6d1aefb168e7fcea2ce" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-e6d1aefb168e7fcea2ce">{"x":{"values":[166.5,187.4,180.7,193,179,179,199,174,187.2],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Wyoming </td>
-   <td style="text-align:center;"> 47080 </td>
-   <td style="text-align:center;"> 6168700 </td>
+   <td style="text-align:center;"> 6.2 </td>
+   <td style="text-align:center;"> 47.1 </td>
    <td style="text-align:center;"> 130.4 </td>
+   <td style="text-align:center;"> <span id="htmlwidget-55a29486562844314ab5" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-55a29486562844314ab5">{"x":{"values":[128,121,134,132,143,135,133,144],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
 </tbody>
 </table>

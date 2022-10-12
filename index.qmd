@@ -4,7 +4,8 @@ author: "Rodney Murray"
 format: 
   html:
     toc: true
-editor: visual
+editor: source
+document-css: false
 ---
 
 ```{r, warning=F, message=F}
@@ -17,9 +18,12 @@ library(tidyr)
 library(knitr)
 library(kableExtra)
 library(sparkline)
-library(DT)
-library(reactable)
 library(stringr)
+# library(DT)
+# library(reactable)
+# library(formattable)
+# library(htmltools)
+sparkline(0)
 ```
 
 
@@ -95,19 +99,37 @@ average_state_yields <- prep_data %>% filter(
 
 ## Table
 
+The table below is showing the production of corn, harvested area and the yield for 2005 of each of the states present in the USDA dataset. Also show in a sparkline is the yield for 2000-2010 to help provide context for how the yield for 2005 may have compared to recent years. The total production and harvested area were also included to help provide a better scale of the production which can be lost when looking at only yields. From this we can see that Nebraska produces much more corn and harvests many more acres of corn than the other states in the dataset.
+
 ```{r}
 table_stats <- average_state_yields %>% 
-  select(state, harvested_area, production, yield)
-cols <- c('State', 'Harvested Area', 'Production', 'Yield')
-units <- c('', 'acre', 'bu', 'bu/acre')
+  select(state, production, harvested_area, yield) %>% 
+  mutate(
+    production = production / 1e6,
+    harvested_area = harvested_area / 1e3,
+    yield_trend=NA
+    ) %>% 
+  as.data.frame()
+cols <- c('State', 'Production', 'Harvested Area', 'Yield', '2000-2010 Yield Trend')
+units <- c('', "millions of bushels", "thousands of acres", 'bushel/acre', 'bushel/acre')
 
-kable(
+for (s in table_stats$state){
+  state_yields <- prep_data %>% filter(location == s, year > 2000 & year < 2010) %>% 
+    arrange(year) %>% 
+    pull(yield)
+  table_stats[which(table_stats$state==s), 'yield_trend'] <- spk_chr(state_yields)
+}
+
+kbl(
   table_stats,
+  caption='2005 Corn Production',
+  escape=F,
   col.names=units,
   align='c',
-  digits=1
+  digits=1, 
+  big.mark=','
   ) %>% 
-  add_header_above(cols) %>% 
+  add_header_above(cols) %>%
   kable_material(lightable_options = c('hover', 'striped', 'condensed'))
 ```
 
