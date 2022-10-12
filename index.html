@@ -160,8 +160,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># library(htmltools)</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">sparkline</span>(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<span id="htmlwidget-0c23030f0f4eb5378c34" class="sparkline html-widget"></span>
-<script type="application/json" data-for="htmlwidget-0c23030f0f4eb5378c34">{"x":{"values":0,"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script>
+<span id="htmlwidget-c435b62931f181d1fe84" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-c435b62931f181d1fe84">{"x":{"values":0,"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <section id="description" class="level2">
@@ -232,6 +232,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="table" class="level2">
 <h2 class="anchored" data-anchor-id="table">Table</h2>
 <p>The table below is showing the production of corn, harvested area and the yield for 2005 of each of the states present in the USDA dataset. Also show in a sparkline is the yield for 2000-2010 to help provide context for how the yield for 2005 may have compared to recent years. The total production and harvested area were also included to help provide a better scale of the production which can be lost when looking at only yields. From this we can see that Nebraska produces much more corn and harvests many more acres of corn than the other states in the dataset.</p>
+<p>I added some formatting, I took advantage of the <code>add_header_above()</code> function to keep the column names, but easily add units for each column below. I also striped the rows to make them easier to distinguish.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>table_stats <span class="ot">&lt;-</span> average_state_yields <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state, production, harvested_area, yield) <span class="sc">%&gt;%</span> </span>
@@ -288,80 +289,80 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    <td style="text-align:center;"> 123.3 </td>
    <td style="text-align:center;"> 723.0 </td>
    <td style="text-align:center;"> 170.3 </td>
-   <td style="text-align:center;"> <span id="htmlwidget-902aad181c6a95dfd37a" class="sparkline html-widget"></span>
-<script type="application/json" data-for="htmlwidget-902aad181c6a95dfd37a">{"x":{"values":[175,165.5,167,178,184,202.5,192,176,189],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
+   <td style="text-align:center;"> <span id="htmlwidget-c5edb4db5906d312454b" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-c5edb4db5906d312454b">{"x":{"values":[175,165.5,167,178,184,202.5,192,176,189],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Kansas </td>
    <td style="text-align:center;"> 254.1 </td>
    <td style="text-align:center;"> 1462.0 </td>
    <td style="text-align:center;"> 173.8 </td>
-   <td style="text-align:center;"> <span id="htmlwidget-ab3da49937b72ed9dcf8" class="sparkline html-widget"></span>
-<script type="application/json" data-for="htmlwidget-ab3da49937b72ed9dcf8">{"x":{"values":[173,160,169,192,187,173,193,183,205],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
+   <td style="text-align:center;"> <span id="htmlwidget-157fb283288e70a1b977" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-157fb283288e70a1b977">{"x":{"values":[173,160,169,192,187,173,193,183,205],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Montana </td>
    <td style="text-align:center;"> 2.1 </td>
    <td style="text-align:center;"> 14.8 </td>
    <td style="text-align:center;"> 142.2 </td>
-   <td style="text-align:center;"> <span id="htmlwidget-635dabececbc96ee5838" class="sparkline html-widget"></span>
-<script type="application/json" data-for="htmlwidget-635dabececbc96ee5838">{"x":{"values":[148,140,140,143,148,146,140],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
+   <td style="text-align:center;"> <span id="htmlwidget-4b96c8fa6bb89b19bc0c" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-4b96c8fa6bb89b19bc0c">{"x":{"values":[148,140,140,143,148,146,140],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Nebraska </td>
    <td style="text-align:center;"> 819.0 </td>
    <td style="text-align:center;"> 4731.0 </td>
    <td style="text-align:center;"> 173.0 </td>
-   <td style="text-align:center;"> <span id="htmlwidget-05e9df1b78627153f500" class="sparkline html-widget"></span>
-<script type="application/json" data-for="htmlwidget-05e9df1b78627153f500">{"x":{"values":[173,166.2,185.5,186.1,184.7,184.8,181.2,184,198.6],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
+   <td style="text-align:center;"> <span id="htmlwidget-fe1d2dd553d227c09a95" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-fe1d2dd553d227c09a95">{"x":{"values":[173,166.2,185.5,186.1,184.7,184.8,181.2,184,198.6],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> New Mexico </td>
    <td style="text-align:center;"> 9.3 </td>
    <td style="text-align:center;"> 53.4 </td>
    <td style="text-align:center;"> 175.0 </td>
-   <td style="text-align:center;"> <span id="htmlwidget-6e16a62c325bff717674" class="sparkline html-widget"></span>
-<script type="application/json" data-for="htmlwidget-6e16a62c325bff717674">{"x":{"values":[180,175,180,180,175,185,180,185],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
+   <td style="text-align:center;"> <span id="htmlwidget-58ac6a46cfefb9bc2201" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-58ac6a46cfefb9bc2201">{"x":{"values":[180,175,180,180,175,185,180,185],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> North Dakota </td>
    <td style="text-align:center;"> 9.3 </td>
    <td style="text-align:center;"> 66.7 </td>
    <td style="text-align:center;"> 139.2 </td>
-   <td style="text-align:center;"> <span id="htmlwidget-20be55b4cac91ec9d918" class="sparkline html-widget"></span>
-<script type="application/json" data-for="htmlwidget-20be55b4cac91ec9d918">{"x":{"values":[149.6,142.8,140.9,118.8,156.5,158.8,147.6,153,121],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
+   <td style="text-align:center;"> <span id="htmlwidget-c1097e8980beaf4a6c40" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-c1097e8980beaf4a6c40">{"x":{"values":[149.6,142.8,140.9,118.8,156.5,158.8,147.6,153,121],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Oklahoma </td>
    <td style="text-align:center;"> 20.0 </td>
    <td style="text-align:center;"> 119.4 </td>
    <td style="text-align:center;"> 167.6 </td>
-   <td style="text-align:center;"> <span id="htmlwidget-0563c6a534bbc8005ed1" class="sparkline html-widget"></span>
-<script type="application/json" data-for="htmlwidget-0563c6a534bbc8005ed1">{"x":{"values":[162,166.7,150.5,195,161.3,160,184.6,159,110],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
+   <td style="text-align:center;"> <span id="htmlwidget-dd9f269dc2d164e78f0a" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-dd9f269dc2d164e78f0a">{"x":{"values":[162,166.7,150.5,195,161.3,160,184.6,159,110],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> South Dakota </td>
    <td style="text-align:center;"> 23.3 </td>
    <td style="text-align:center;"> 145.5 </td>
    <td style="text-align:center;"> 159.6 </td>
-   <td style="text-align:center;"> <span id="htmlwidget-e138b3b187765e8de684" class="sparkline html-widget"></span>
-<script type="application/json" data-for="htmlwidget-e138b3b187765e8de684">{"x":{"values":[157.8,141,174.2,169.9,170,168.7,172.1,174,181],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
+   <td style="text-align:center;"> <span id="htmlwidget-d127c2d9c704f981922f" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-d127c2d9c704f981922f">{"x":{"values":[157.8,141,174.2,169.9,170,168.7,172.1,174,181],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Texas </td>
    <td style="text-align:center;"> 132.7 </td>
    <td style="text-align:center;"> 744.0 </td>
    <td style="text-align:center;"> 178.6 </td>
-   <td style="text-align:center;"> <span id="htmlwidget-e6d1aefb168e7fcea2ce" class="sparkline html-widget"></span>
-<script type="application/json" data-for="htmlwidget-e6d1aefb168e7fcea2ce">{"x":{"values":[166.5,187.4,180.7,193,179,179,199,174,187.2],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
+   <td style="text-align:center;"> <span id="htmlwidget-81844e7e92c5d2609357" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-81844e7e92c5d2609357">{"x":{"values":[166.5,187.4,180.7,193,179,179,199,174,187.2],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Wyoming </td>
    <td style="text-align:center;"> 6.2 </td>
    <td style="text-align:center;"> 47.1 </td>
    <td style="text-align:center;"> 130.4 </td>
-   <td style="text-align:center;"> <span id="htmlwidget-55a29486562844314ab5" class="sparkline html-widget"></span>
-<script type="application/json" data-for="htmlwidget-55a29486562844314ab5">{"x":{"values":[128,121,134,132,143,135,133,144],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
+   <td style="text-align:center;"> <span id="htmlwidget-250171b534515aca8e1b" class="sparkline html-widget"></span>
+<script type="application/json" data-for="htmlwidget-250171b534515aca8e1b">{"x":{"values":[128,121,134,132,143,135,133,144],"options":{"height":20,"width":60},"width":60,"height":20},"evals":[],"jsHooks":[]}</script> </td>
   </tr>
 </tbody>
 </table>
