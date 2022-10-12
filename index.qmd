@@ -1,0 +1,137 @@
+---
+title: "Tables"
+author: "Rodney Murray"
+format: 
+  html:
+    toc: true
+editor: source
+document-css: false
+---
+
+```{r, warning=F, message=F}
+library(dplyr)
+library(ggplot2)
+library(plotly)
+library(viridis)
+library(gridExtra)
+library(tidyr)
+library(knitr)
+library(kableExtra)
+library(sparkline)
+library(stringr)
+# library(DT)
+# library(reactable)
+# library(formattable)
+# library(htmltools)
+sparkline(0)
+```
+
+
+## Description
+
+I downloaded corn yield data from [USDA's quick stats lite site](https://www.nass.usda.gov/Quick_Stats/Lite/index.php#91CC0BA8-1B17-3774-91BB-3549B470CD60) so that I could compare corn yields for irrigated land over time from a couple of states of interest: Montana (where I will be moving to) and Colorado (because of CSU).
+
+To replicate the data one can visit the site linked above and apply the filters described below:
+
+-   Sector = CROPS
+-   Group = FIELD CROPS
+-   Commodity = CORN
+-   View = Acreage, Yield, and Production - Irrigated / Non-Irrigated
+-   Year = 1950-2022
+-   Geographic Level = State
+
+**Note:** I exported data for all states, but had to do it in two exports. The tool provided an empty CSV when I attempted to select data for all states at once. This data is also available in this GitHub repo.
+
+## Load Data
+
+```{r}
+# Read data from a csv file
+# data <- read.csv('corn_production.csv')
+data1 <- read.csv('corn_production1.csv')
+data2 <- read.csv('corn_production2.csv')
+data <- bind_rows(data1, data2)
+
+# Change the names to lower case so that they're easier for me to work with
+names(data) <- tolower(names(data))
+```
+
+## Data preparation
+
+Here I will rename, select a subset of columns, and filter the data to records that have data for production as well as those where the corn was grown on irrigated land. I will also filter data at this point to Year \> 1980 to help focus on the time period I'm interested in.
+
+```{r, warning=FALSE}
+# Rename, select a subset of columns, and filter
+prep_data <- data %>%
+  rename(
+    production=production.in.bu, 
+    harvested_area=area.harvested.in.acres,
+    yield=yield.in.bu...acre
+    ) %>% 
+  filter(
+    production > 0,
+    prodn.practice == 'IRRIGATED',
+    year >= 1980
+    ) %>% 
+  select(year, location, prodn.practice, harvested_area, production, yield) %>% 
+  mutate(
+    harvested_area=as.numeric(str_replace_all(harvested_area, ',', '')),
+    production=as.numeric(str_replace_all(production, ',', '')),
+    location = str_to_title(location)
+  )
+```
+
+
+```{r, warning=FALSE}
+# Get the average yields for stats in the 2000 to 2005 time period
+average_state_yields <- prep_data %>% filter(
+      year >= 2000,
+    year < 2005
+  ) %>% 
+  group_by(location) %>% 
+  summarize(
+    harvested_area=mean(harvested_area),
+    production=mean(production),
+    yield=mean(yield)
+    ) %>% 
+  mutate(state = location)
+```
+
+
+## Table
+
+The table below is showing the production of corn, harvested area and the yield for 2005 of each of the states present in the USDA dataset. Also show in a sparkline is the yield for 2000-2010 to help provide context for how the yield for 2005 may have compared to recent years. The total production and harvested area were also included to help provide a better scale of the production which can be lost when looking at only yields. From this we can see that Nebraska produces much more corn and harvests many more acres of corn than the other states in the dataset.
+
+I added some formatting, I took advantage of the `add_header_above()` function to keep the column names, but easily add units for each column below. I also striped the rows to make them easier to distinguish.
+
+```{r}
+table_stats <- average_state_yields %>% 
+  select(state, production, harvested_area, yield) %>% 
+  mutate(
+    production = production / 1e6,
+    harvested_area = harvested_area / 1e3,
+    yield_trend=NA
+    ) %>% 
+  as.data.frame()
+cols <- c('State', 'Production', 'Harvested Area', 'Yield', '2000-2010 Yield Trend')
+units <- c('', "millions of bushels", "thousands of acres", 'bushel/acre', 'bushel/acre')
+
+for (s in table_stats$state){
+  state_yields <- prep_data %>% filter(location == s, year > 2000 & year < 2010) %>% 
+    arrange(year) %>% 
+    pull(yield)
+  table_stats[which(table_stats$state==s), 'yield_trend'] <- spk_chr(state_yields)
+}
+
+kbl(
+  table_stats,
+  caption='2005 Corn Production',
+  escape=F,
+  col.names=units,
+  align='c',
+  digits=1, 
+  big.mark=','
+  ) %>% 
+  add_header_above(cols) %>%
+  kable_material(lightable_options = c('hover', 'striped', 'condensed'))
+```
+
